@@ -705,12 +705,16 @@ def main(args):
             logger.info("Beacon advertiser mode selected.")
             advertiser = Advertiser(logger, **config['advertiser'])
             advertiser.advertise()
-            output = None
+            scanner = Scanner(logger, **config['scanner'])
+            advertisements = scanner.scan()
+            output = advertisements
         elif parsed_args['scanner']:
             logger.info("Beacon scanner mode selected.")
             scanner = Scanner(logger, **config['scanner'])
             advertisements = scanner.scan()
             output = advertisements
+            advertiser = Advertiser(logger, **config['advertiser'])
+            advertiser.advertise()
     except Exception:
         logger.exception("Fatal exception encountered")
     finally:
